@@ -24,10 +24,6 @@ if(USE_MYMATH)
     # Add the MathFunctions library to the variable list of libraries to link
     # the executable to.
     list(APPEND EXTRA_LIBS MathFunctions)
-
-    # Add the MathFunctions directory to the header file include directories
-    # variable list.
-    list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/MathFunctions")
 endif()
 
 # Add the executable.
@@ -42,5 +38,4 @@ target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
 # TutorialConfig.h (version header).
 target_include_directories(Tutorial PUBLIC
                            "${PROJECT_BINARY_DIR}"
-                           "${EXTRA_INCLUDES}"
                            )
