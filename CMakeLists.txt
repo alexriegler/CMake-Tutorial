@@ -1,3 +1,30 @@
+# CMake commands to run (assuming ran from bin directory):
+# Configure cmake and create build files:
+# cmake ..
+#
+# Add option:
+# cmake .. -DUSE_MYMATH=OFF
+#
+# Build (compile and link) application:
+# cmake --build .
+#
+# Install local
+# TODO
+#
+# Create installer:
+# Windows: Need NSIS for installer (run "winget install NSIS.NSIS").
+# Build the project in the usual manner and then run the cpack executable.
+# To build a binary distribution, from the binary directory run:
+# cpack
+#
+# To specify the generator, use the -G option. For multi-config builds, use -C
+# to specify the configuration. For example:
+# cpack -G ZIP -C Debug
+#
+# To create an archive of the full source tree you would type:
+# cpack --config CPackSourceConfig.cmake
+#
+
 # Minimum CMake version required.
 cmake_minimum_required(VERSION 3.15)
 
@@ -72,13 +99,11 @@ do_test(Tutorial 25 "25 is 5")
 do_test(Tutorial -25 "-25 is (-nan|nan|0)")
 do_test(Tutorial 0.0001 "0.0001 is 0.01")
 
-# CMake commands to run (assuming ran from bin directory):
-# Configure cmake and create build files:
-# cmake ..
-#
-# Add option:
-# cmake .. -DUSE_MYMATH=OFF
-#
-# Build (compile and link) application:
-# cmake --build .
-#
+# Step 7: Packaging an Installer
+# Setup installer.
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR "${Tutorial_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${Tutorial_VERSION_MINOR}")
+set(CPACK_SOURCE_GENERATOR "TGZ")
+include(CPack)
