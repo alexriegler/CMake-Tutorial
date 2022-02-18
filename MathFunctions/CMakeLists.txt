@@ -18,6 +18,10 @@ if(USE_MYMATH)
     # Add the executable that generates the table.
     add_executable(MakeTable MakeTable.cxx)
 
+    # All targets have a target_link_libraries() call to
+    # tutorial_compiler_flags.
+    target_link_libraries(MakeTable PRIVATE tutorial_compiler_flags)
+
     # Add the command to generate the source code.
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Table.h
@@ -30,16 +34,19 @@ if(USE_MYMATH)
                 mysqrt.cxx
                 ${CMAKE_CURRENT_BINARY_DIR}/Table.h)
 
-    # State that SqrtLibrary need PIC when the default is shared libraries.
-    set_target_properties(SqrtLibrary PROPERTIES
-                          POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS})
-
     # State that we depend on our binary dir to find Table.h.
     target_include_directories(SqrtLibrary PRIVATE
                                ${CMAKE_CURRENT_BINARY_DIR})
 
+    # State that SqrtLibrary need PIC when the default is shared libraries.
+    set_target_properties(SqrtLibrary PROPERTIES
+                          POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS})
+
+    target_link_libraries(SqrtLibrary PUBLIC tutorial_compiler_flags)
     target_link_libraries(MathFunctions PRIVATE SqrtLibrary)
 endif()
+
+target_link_libraries(MathFunctions PUBLIC tutorial_compiler_flags)
 
 # Step 5: Adding System Introspection
 # # Does this system provide the log and exp functions?---------------------------
@@ -81,7 +88,7 @@ endif()
 # endif()
 
 # Install rules.
-set(installable_libs MathFunctions)
+set(installable_libs MathFunctions tutorial_compiler_flags)
 if(TARGET SqrtLibrary)
     list(APPEND installable_libs SqrtLibrary)
 endif()
