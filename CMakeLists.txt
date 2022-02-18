@@ -24,6 +24,14 @@
 # To create an archive of the full source tree you would type:
 # cpack --config CPackSourceConfig.cmake
 #
+# Testing dashboard (from binary tree)
+# Submit testing results:
+# ctest [-VV] -D Experimental
+#
+# For multi-config generators (e.g. Visual Studio), the configuration type must
+# be specified:
+# ctest [-VV] -C Debug -D Experimental
+#
 
 # Minimum CMake version required.
 cmake_minimum_required(VERSION 3.15)
@@ -72,7 +80,10 @@ install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h"
         )
 
 # Testing
-enable_testing()
+# Enable dashboard scripting.
+# The CTest module will automatically call enable_testing(), so we can remove it
+# from our CMake files.
+include(CTest)
 
 # Does the application run?
 add_test(NAME Runs COMMAND Tutorial 25)
