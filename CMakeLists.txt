@@ -39,6 +39,11 @@ cmake_minimum_required(VERSION 3.15)
 # Set the project name and version.
 project(Tutorial VERSION 1.0)
 
+# Ensure that the debug and release builds use different names for the
+# executables and libraries that will be installed. Let's use d as the postfix
+# for the debug executable and libraries.
+set(CMAKE_DEBUG_POSTFIX d)
+
 # Specify the C++ standard (Must be above the call to add_executable).
 # set(CMAKE_CXX_STANDARD 11)
 # set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -79,6 +84,7 @@ add_subdirectory(MathFunctions)
 
 # Add the executable.
 add_executable(Tutorial tutorial.cxx)
+set_target_properties(Tutorial PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 # Add the libraries to link to the executable.
 target_link_libraries(Tutorial PUBLIC MathFunctions)

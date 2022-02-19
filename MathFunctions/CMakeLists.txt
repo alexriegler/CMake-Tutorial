@@ -93,6 +93,10 @@ target_link_libraries(MathFunctions PUBLIC tutorial_compiler_flags)
 #                                PRIVATE "HAVE_LOG" "HAVE_EXP")
 # endif()
 
+# Setup the version numbering.
+set_property(TARGET MathFunctions PROPERTY VERSION "1.0.0")
+set_property(TARGET MathFunctions PROPERTY SOVERSION "1")
+
 # Install rules.
 set(installable_libs MathFunctions tutorial_compiler_flags)
 if(TARGET SqrtLibrary)
